@@ -1,0 +1,58 @@
+workflow:
+  rules:
+  - if: $CI_COMMIT_BRANCH == "master"
+    variables:
+      registry: $ci_registry
+      registry_namespace: $CI_PROJECT_NAME
+      registry_username: $ci_registry_username
+      registry_password: $ci_registry_password
+    
+variables:
+  app_name: $CI_PROJECT_NAME
+  app_version: $CI_COMMIT_SHORT_SHA
+  namespace: $CI_PROJECT_NAMESPACE
+  GIT_CLONE_PATH: '$CI_BUILDS_DIR/$CI_JOB_ID/$CI_PROJECT_NAME'
+
+stages:
+  - build
+  - deploy
+
+build_code:
+  stage: build
+  script:
+    - go build
+  artifacts:
+    paths:
+      - $app_name
+  
+docker_build:
+  stage: build
+  script:
+    - docker build -t $registry/$registry_namespace/$app_name:$app_version .
+  needs:
+    - build_code
+
+docker_push:
+  stage: build
+  script:
+    - docker login -u $ci_registry_username -p $ci_registry_password $ci_registry
+    - docker push $registry/$registry_namespace/$app_name:$app_version
+    - docker logout $ci_registry
+  needs:
+    - docker_build
+
+# deploy_dev:
+#   stage: deploy
+#   before_script:
+#     - git remote set-url origin http://${CI_USERNAME}:${CI_PASSWORD}@gitlab.com/${CI_PROJECT_PATH}.git
+#     - git config --global user.name "sundayhk"
+#     - git config --global user.email "sundayhk@gmail.com"
+#   script:
+#     - git checkout -B master
+#     - cd base
+#     - kubectl kustomize edit set image $registry/$registry_namespace/$app_name:$app_version
+#     - cat kustomization.yaml
+#     - git commit -am '[skip ci] Dev image update'
+#     - git push origin master
+#   needs:
+#     - docker_push 

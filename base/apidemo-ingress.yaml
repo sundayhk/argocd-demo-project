@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: apidemo
+  namespace: apidemo
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: apidemo.sundayhk.com
+      http:
+        paths:
+          - pathType: Prefix
+            backend:
+              service:
+                name: apidemo
+                port:
+                  number: 10880
+            path: /
