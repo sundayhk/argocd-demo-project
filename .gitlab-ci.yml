@@ -17,20 +17,23 @@ stages:
   - build
   - deploy
 
-build_code:
-  stage: build
-  script:
-    - go build
-  artifacts:
-    paths:
-      - $app_name
+# build_code:
+#   stage: build
+#   script:
+#     - go build
+#   artifacts:
+#     paths:
+#       - $app_name
   
 docker_build:
   stage: build
   script:
     - docker build -t $registry/$registry_namespace/$app_name:$app_version .
-  needs:
-    - build_code
+  artifacts:
+    paths:
+      - $app_name
+  # needs:
+  #   - build_code
 
 docker_push:
   stage: build
