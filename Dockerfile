@@ -2,7 +2,7 @@ FROM golang:1.11.3-alpine3.8 as builder
 
 WORKDIR /app
 
-COPY main.go .
+COPY . /app
 
 RUN go build -o gin-server
 
