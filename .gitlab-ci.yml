@@ -28,23 +28,22 @@ stages:
 docker_build:
   stage: build
   script:
-    # - docker build -t $registry/$registry_namespace/$app_name:$app_version .
-    - docker build -t $app_name:$app_version .
-
-  artifacts:
-    paths:
-      - $app_name
+    - docker build -t $registry/$registry_namespace/$app_name:$app_version .
+    # - docker build -t $app_name:$app_version .
+  # artifacts:
+  #   paths:
+  #     - $app_name
   # needs:
   #   - build_code
 
-# docker_push:
-#   stage: build
-#   script:
-#     - docker login -u $ci_registry_username -p $ci_registry_password $ci_registry
-#     - docker push $registry/$registry_namespace/$app_name:$app_version
-#     - docker logout $ci_registry
-#   needs:
-#     - docker_build
+docker_push:
+  stage: build
+  script:
+    - docker login -u $ci_registry_username -p $ci_registry_password $ci_registry
+    - docker push $registry/$registry_namespace/$app_name:$app_version
+    - docker logout $ci_registry
+  needs:
+    - docker_build
 
 # deploy_dev:
 #   stage: deploy
