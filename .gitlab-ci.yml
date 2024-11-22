@@ -20,10 +20,10 @@ stages:
   - build
   - deploy
 
-export_variables:
-  stage: export_variables
-  script:
-    - export # 查看内置变量
+# export_variables:
+#   stage: export_variables
+#   script:
+#     - export # 查看内置变量
   
 docker_build:
   stage: build
