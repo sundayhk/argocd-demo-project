@@ -6,30 +6,29 @@ workflow:
       registry_namespace: $CI_PROJECT_NAME
       registry_username: $ci_registry_username
       registry_password: $ci_registry_password
+      gitlab_username: $ci_gitlab_username
+      gitlab_token: $ci_gitlab_token
     
 variables:
   app_name: $CI_PROJECT_NAME
   app_version: $CI_COMMIT_SHORT_SHA
   namespace: $CI_PROJECT_NAMESPACE
-  GIT_CLONE_PATH: '$CI_BUILDS_DIR/$CI_JOB_ID/$CI_PROJECT_NAME'
+  #GIT_CLONE_PATH: '$CI_BUILDS_DIR/$CI_JOB_ID/$CI_PROJECT_NAME'
 
 stages:
+  #- export_variables
   - build
   - deploy
 
-# build_code:
-#   stage: build
-#   script:
-#     - go build
-#   artifacts:
-#     paths:
-#       - $app_name
+export_variables:
+  stage: export_variables
+  script:
+    - export # 查看内置变量
   
 docker_build:
   stage: build
   script:
     - docker build -t $registry/$registry_namespace/$app_name:$app_version .
-    # - docker build -t $app_name:$app_version .
   # artifacts:
   #   paths:
   #     - $app_name
@@ -48,13 +47,12 @@ docker_push:
 deploy_dev:
   stage: deploy
   before_script:
-    - git remote set-url origin http://${CI_USERNAME}:${CI_PASSWORD}@gitlab.sundayhk.com/${CI_PROJECT_PATH}.git
+    - git remote set-url origin http://${gitlab_username}:${$gitlab_token}@$CI_SERVER_URL/${CI_PROJECT_PATH}.git
     - git config --global user.name "sundayhk"
     - git config --global user.email "sundayhk@gmail.com"
   script:
     - git checkout -B master
     - cd base
-    - export
     - kustomize edit set image $registry/$registry_namespace/$app_name:$app_version
     - cat kustomization.yaml
     - git commit -am '[skip ci] Dev image update'
