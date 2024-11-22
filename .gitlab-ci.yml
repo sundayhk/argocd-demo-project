@@ -54,7 +54,8 @@ deploy_dev:
   script:
     - git checkout -B master
     - cd base
-    - kubectl kustomize edit set image $registry/$registry_namespace/$app_name:$app_version
+    #- kubectl kustomize edit set image $registry/$registry_namespace/$app_name:$app_version
+    - sed -i "s|image:.*$|image: $registry/$registry_namespace/$app_name:$app_version|g" kustomization.yaml
     - cat kustomization.yaml
     - git commit -am '[skip ci] Dev image update'
     - git push origin master
