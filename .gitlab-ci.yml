@@ -47,7 +47,7 @@ docker_push:
 deploy_dev:
   stage: deploy
   before_script:
-    - git remote set-url origin http://${gitlab_username}:${$gitlab_token}@${CI_SERVER_URL}/${CI_PROJECT_PATH}.git
+    - git remote set-url origin http://${gitlab_username}:${gitlab_token}@${CI_SERVER_URL}/${CI_PROJECT_PATH}.git
     - git config --global user.name "sundayhk"
     - git config --global user.email "sundayhk@gmail.com"
   script:
