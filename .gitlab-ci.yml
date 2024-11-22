@@ -16,18 +16,13 @@ variables:
   #GIT_CLONE_PATH: '$CI_BUILDS_DIR/$CI_JOB_ID/$CI_PROJECT_NAME'
 
 stages:
-  #- export_variables
   - build
   - deploy
-
-# export_variables:
-#   stage: export_variables
-#   script:
-#     - export # 查看内置变量
   
 docker_build:
   stage: build
   script:
+    #- export # 打印内置变量
     - docker build -t $registry/$registry_namespace/$app_name:$app_version .
   # artifacts:
   #   paths:
