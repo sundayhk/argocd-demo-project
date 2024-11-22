@@ -1,10 +1,12 @@
-FROM golang:1.11.3-alpine3.8 as builder
+FROM golang:1.23-alpine3.19 as builder
 
 WORKDIR /app
 
-COPY main.go .
+#COPY go.mod go.sum ./
+COPY . .
 
-RUN go build -o gin-server
+#RUN go mod download
+RUN go build -o gin-server .
 
 FROM alpine:3.8
 
