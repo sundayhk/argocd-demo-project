@@ -1,9 +1,9 @@
 resources:
-- apidemo-deployment.yaml
-- apidemo-service.yaml
-- apidemo-ingress.yaml
+- deployment.yaml
+- service.yaml
+- ingress.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 images:
-- name: harbor.sundayhk.com/argocd-demo-project/argocd-demo-project
+- name: harbor.sundayhk.com/argocd-argocd-demo-project/argocd-argocd-demo-project
   newTag: 8540d3aa

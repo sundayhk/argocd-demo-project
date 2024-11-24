@@ -48,7 +48,7 @@ deploy_dev:
   script:
     - git checkout -B master
     - cd base
-    - kustomize edit set image $registry/$registry_namespace/$app_name:$app_version
+    - kustomize edit set image $app_name=$registry/$registry_namespace/$app_name:$app_version
     - cat kustomization.yaml
     - git commit -am '[skip ci] Dev image update'
     - git push origin master

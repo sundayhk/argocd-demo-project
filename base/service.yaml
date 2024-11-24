@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: argocd-demo-project
+  namespace: argocd-demo-project
+  labels:
+    app: argocd-demo-project
+spec:
+  type: NodePort
+  ports:
+  - name: argocd-demo-project-port
+    port: 8080
+    targetPort: 8080
+    nodePort: 30080
+  selector:
+    app: argocd-demo-project
