@@ -22,4 +22,4 @@ spec:
           image: argocd-demo-project:latest
           imagePullPolicy: Always
           ports:
-          - containerPort: 10088
+          - containerPort: 8080
