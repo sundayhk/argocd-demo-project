@@ -7,4 +7,4 @@ kind: Kustomization
 images:
 - name: argocd-demo-project
   newName: harbor.sundayhk.com/argocd-demo-project/argocd-demo-project
-  newTag: 5fa3bce6
+  newTag: 4e3b8cba
