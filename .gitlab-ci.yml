@@ -47,6 +47,7 @@ deploy_dev:
     - git config --global user.email "sundayhk@gmail.com"
   script:
     - git checkout -B dev_build
+    - git fetch origin
     - git reset --hard origin/dev_build
     - cd base
     - kustomize edit set image $app_name=$registry/$registry_namespace/$app_name:$app_version
