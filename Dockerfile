@@ -15,3 +15,4 @@ FROM alpine:3.8
 COPY --from=builder /app/gin-server /app/gin-server
 
 EXPOSE 8080
+CMD ["/app/gin-server"]
