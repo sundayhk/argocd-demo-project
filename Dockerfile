@@ -5,6 +5,8 @@ WORKDIR /app
 #COPY go.mod go.sum ./
 COPY . .
 
+ENV GOPROXY=https://goproxy.cn
+
 #RUN go mod download
 RUN go build -o gin-server .
 

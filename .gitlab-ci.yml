@@ -1,18 +1,21 @@
-workflow:
-  rules:
-  - if: $CI_COMMIT_BRANCH == "master"
-    variables:
-      registry: $ci_registry
-      registry_namespace: $CI_PROJECT_NAME
-      registry_username: $ci_registry_username
-      registry_password: $ci_registry_password
-      gitlab_username: $ci_gitlab_username
-      gitlab_password: $ci_gitlab_password
+# workflow:
+#   rules:
+#   - if: $CI_COMMIT_BRANCH == "master"
+#     variables:
+#       registry: $ci_registry
+#       #registry_namespace: $CI_PROJECT_NAME
     
 variables:
-  app_name: $CI_PROJECT_NAME
+  #app_name: $CI_PROJECT_NAME
+  app_name: "demo-project"
   app_version: $CI_COMMIT_SHORT_SHA
-  namespace: $CI_PROJECT_NAMESPACE
+  registry: $ci_registry
+  #registry_namespace: $CI_PROJECT_NAME
+  registry_namespace: "demo-project"
+  registry_username: $ci_registry_username
+  registry_password: $ci_registry_password
+  gitlab_username: $ci_gitlab_username
+  gitlab_password: $ci_gitlab_password
   #GIT_CLONE_PATH: '$CI_BUILDS_DIR/$CI_JOB_ID/$CI_PROJECT_NAME'
 
 stages:
@@ -39,7 +42,7 @@ docker_push:
   needs:
     - docker_build
 
-deploy_dev:
+deploy_prod:
   stage: deploy
   before_script:
     - git remote set-url origin http://${gitlab_username}:${gitlab_password}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git
