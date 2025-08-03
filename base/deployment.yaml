@@ -1,25 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: argocd-demo-project
-  name: argocd-demo-project
+  namespace: dev
+  name: demo-project
   labels:
-    app: argocd-demo-project
+    app: demo-project
   
 spec:
   replicas: 4
   selector:
     matchLabels:
-      app: argocd-demo-project
+      app: demo-project
   template:
     metadata:
-      name: argocd-demo-project
+      name: demo-project
       labels:
-        app: argocd-demo-project
+        app: demo-project
     spec:
       containers:
-        - name: argocd-demo-project
-          image: argocd-demo-project:latest
+        - name: demo-project
+          image: demo-project:latest
           imagePullPolicy: Always
           ports:
           - containerPort: 8080

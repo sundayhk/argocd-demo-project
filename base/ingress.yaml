@@ -1,18 +1,18 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argocd-demo-project
-  namespace: argocd-demo-project
+  name: demo-project
+  namespace: dev
 spec:
   ingressClassName: nginx
   rules:
-    - host: argocd-demo-project.sundayhk.com
+    - host: demo-project.sundayhk.com
       http:
         paths:
           - pathType: Prefix
             backend:
               service:
-                name: argocd-demo-project
+                name: demo-project
                 port:
                   number: 8080
             path: /

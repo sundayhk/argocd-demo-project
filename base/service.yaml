@@ -1,16 +1,16 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: argocd-demo-project
-  namespace: argocd-demo-project
+  name: demo-project
+  namespace: dev
   labels:
-    app: argocd-demo-project
+    app: demo-project
 spec:
   type: NodePort
   ports:
-  - name: argocd-demo-project-port
+  - name: demo-project-port
     port: 8080
     targetPort: 8080
     nodePort: 30080
   selector:
-    app: argocd-demo-project
+    app: demo-project
