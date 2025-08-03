@@ -1,13 +1,13 @@
 workflow:
   rules:
-  - if: $CI_COMMIT_BRANCH == "master"
+  - if: $CI_COMMIT_BRANCH == "dev"
     variables:
       registry: $ci_registry
       registry_namespace: $CI_PROJECT_NAME
       registry_username: $ci_registry_username
       registry_password: $ci_registry_password
       gitlab_username: $ci_gitlab_username
-      gitlab_token: $ci_gitlab_token
+      gitlab_password: $ci_gitlab_password
     
 variables:
   app_name: $CI_PROJECT_NAME
@@ -42,17 +42,17 @@ docker_push:
 deploy_dev:
   stage: deploy
   before_script:
-    - git remote set-url origin http://${gitlab_username}:${gitlab_token}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git
+    - git remote set-url origin http://${gitlab_username}:${gitlab_password}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git
     - git config --global user.name "sundayhk"
     - git config --global user.email "sundayhk@gmail.com"
   script:
-    - git checkout -B dev_build
+    - git checkout -B dev
     - git fetch origin
-    - git reset --hard origin/dev_build
+    - git reset --hard origin/dev
     - cd base
     - kustomize edit set image $app_name=$registry/$registry_namespace/$app_name:$app_version
     - cat kustomization.yaml
     - git commit -am '[skip ci] Dev image update'
-    - git push origin dev_build
+    - git push origin dev
   needs:
     - docker_push
