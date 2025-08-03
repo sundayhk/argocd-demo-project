@@ -46,13 +46,13 @@ deploy_dev:
     - git config --global user.name "sundayhk"
     - git config --global user.email "sundayhk@gmail.com"
   script:
-    - git checkout -B dev_build
+    - git checkout -B master
     - git fetch origin
-    - git reset --hard origin/dev_build
+    - git reset --hard origin/master
     - cd base
     - kustomize edit set image $app_name=$registry/$registry_namespace/$app_name:$app_version
     - cat kustomization.yaml
     - git commit -am '[skip ci] Dev image update'
-    - git push origin dev_build
+    - git push origin master
   needs:
     - docker_push
