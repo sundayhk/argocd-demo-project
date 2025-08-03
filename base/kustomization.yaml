@@ -7,4 +7,3 @@ kind: Kustomization
 images:
 - name: demo-project
   newName: harbor.sundayhk.com/demo-project/demo-project
-  newTag: e99b9536

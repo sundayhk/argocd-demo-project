@@ -1,19 +1,20 @@
-workflow:
-  rules:
-  - if: $CI_COMMIT_BRANCH == "dev"
-    variables:
-      registry: $ci_registry
-      registry_namespace: $CI_PROJECT_NAME
-      registry_username: $ci_registry_username
-      registry_password: $ci_registry_password
-      gitlab_username: $ci_gitlab_username
-      gitlab_password: $ci_gitlab_password
-    
+# workflow:
+#   rules:
+#   - if: $CI_COMMIT_BRANCH == "dev"
+#     variables:
+#       registry: $ci_registry
+#       # registry_namespace: $CI_PROJECT_NAME
+
 variables:
-  app_name: $CI_PROJECT_NAME
+  registry: $ci_registry
+  registry_namespace: "demo-project"
+  registry_username: $ci_registry_username
+  registry_password: $ci_registry_password
+  gitlab_username: $ci_gitlab_username
+  gitlab_password: $ci_gitlab_password
+  # app_name: $CI_PROJECT_NAME
+  app_name: "demo-project"
   app_version: $CI_COMMIT_SHORT_SHA
-  namespace: $CI_PROJECT_NAMESPACE
-  #GIT_CLONE_PATH: '$CI_BUILDS_DIR/$CI_JOB_ID/$CI_PROJECT_NAME'
 
 stages:
   - build
@@ -23,6 +24,7 @@ docker_build:
   stage: build
   script:
     #- export # 打印内置变量
+    - echo $registry/$registry_namespace/$app_name:$app_version
     - docker build -t $registry/$registry_namespace/$app_name:$app_version .
   # artifacts:
   #   paths:
@@ -42,6 +44,7 @@ docker_push:
 deploy_dev:
   stage: deploy
   before_script:
+    - echo http://${gitlab_username}:${gitlab_password}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git
     - git remote set-url origin http://${gitlab_username}:${gitlab_password}@${CI_SERVER_HOST}/${CI_PROJECT_PATH}.git
     - git config --global user.name "sundayhk"
     - git config --global user.email "sundayhk@gmail.com"
